@@ -1,0 +1,63 @@
+import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.*;
+public class Main {
+ 
+    static BigDecimal CNs[] = new BigDecimal[151];
+ 
+    public static BigDecimal CN(int n)
+    {
+        if (CNs[n] != null) return CNs[n];
+        BigDecimal a = new BigDecimal("1");
+        BigDecimal b = new BigDecimal("1");
+        for (int i=n+1, j = 1; i<= 2*n; i++, j++)        {           a = a.multiply(BigDecimal.valueOf(i));          b = b.multiply(BigDecimal.valueOf(j));      }               b = b.multiply(BigDecimal.valueOf(n + 1));              a = a.divide(b);        CNs[n] = a;         return a;   }   static BigDecimal dp[][];           public static BigDecimal calc(int l, int d)     {       if (dp[l][d] != null) return dp[l][d];      if (d*2 > l) return BigDecimal.valueOf(0);
+        if (d*2 == l) return BigDecimal.valueOf(1);
+        if (d == 1) return BigDecimal.valueOf(1);
+        BigDecimal a = calc(l-2, d);
+        BigDecimal c, f, e, nTooBig, c1, c2;
+        for (int i=2; i<=l-2; i+=2)
+        {
+            nTooBig = BigDecimal.valueOf(0);
+ 
+            for (int j=d+1; calc(l-i-2,j).compareTo(BigDecimal.valueOf(0)) != 0; j++)nTooBig = nTooBig.add(calc(l-i-2,j));
+ 
+            c1 = CN( (l-i-2)/2).subtract(nTooBig);
+ 
+            c = calc(i, d-1).multiply(c1);
+            nTooBig = BigDecimal.valueOf(0);
+ 
+            for (int j=d; calc(i,j).compareTo(BigDecimal.valueOf(0)) != 0; j++)nTooBig = nTooBig.add(calc(i,j));
+ 
+            c2 = CN(i/2).subtract(nTooBig);
+ 
+            e = c2.subtract(calc(i, d-1));
+            f = calc(l-i-2, d).multiply(e);
+ 
+            a = a.add( f.add(c));
+ 
+        }
+ 
+        dp[l][d] = a;
+        return dp[l][d];
+ 
+    }
+    public static void main(String args[])
+    {
+        Scanner s = new Scanner(System.in);
+         dp = new BigDecimal[301][];
+            for (int i=0; i<301; i++)dp[i] = new BigDecimal[151];
+ 
+        int l, d;
+        while(s.hasNextInt())
+        {
+            l = s.nextInt();
+            d = s.nextInt();
+ 
+            System.out.printf("%s\n", calc(l,d).toString());
+ 
+        }
+ 
+    }
+ 
+}

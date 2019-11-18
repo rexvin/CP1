@@ -1,0 +1,45 @@
+import java.io.*;
+import java.util.StringTokenizer;
+class Caary_count {
+
+    int count_carry(int num1,int num2){
+        int rem1=0,rem2=0,count=0,carry=0,res,add;
+        while(num1>0 && num2>0){
+            rem1 = num1;
+            rem2 = num2;
+            num1/=10;
+            num2/=10;
+            res = (rem1+rem2+carry);
+            carry = (rem1+rem2+carry)/10;
+            if(carry>0){
+                ++count;
+            }
+        }
+        return count;
+    }
+    public static void main(String[] args) throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        PrintWriter pw = new PrintWriter(System.out);
+        Caary_count obj = new Caary_count();
+        int n1 = Integer.parseInt(st.nextToken());
+        int n2 = Integer.parseInt(st.nextToken());
+        while(n1!=0 && n2!=0){
+            int count = obj.count_carry(n1, n2);
+            if(count==0){
+                pw.println("No carry operation.");
+            }
+            else if(count==1){
+                pw.println("1 carry operation.");
+            }
+            else{
+                pw.println(count+" carry operations.");
+            }
+            st = new StringTokenizer(br.readLine());
+            n1 = Integer.parseInt(st.nextToken());
+            n2 = Integer.parseInt(st.nextToken());
+        }
+        pw.flush();
+        // TODO code application logic here
+    }
+}

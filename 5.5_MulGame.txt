@@ -1,0 +1,34 @@
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Scanner;
+ 
+public class Main {
+    static HashMap<Long, Boolean> h = new HashMap<Long, Boolean>();
+    static long p;
+ 
+     
+    static boolean solve(long n){
+        if(n >= p)
+            return false;
+        else if(h.containsKey(n))
+            return h.get(n);
+        else{
+            boolean v = true;
+            for (int i = 2; i <= 9; i++)
+                v &= solve(n * i);
+            h.put(n, !v);
+            return h.get(n);
+        }
+    }
+ 
+    public static void main(String[] args) throws IOException {
+        Scanner sc =  new Scanner(System.in);
+        StringBuilder out = new StringBuilder();
+        while(sc.hasNext()){
+            p = sc.nextLong();
+            h.clear();
+            out.append(solve(1) ? "Stan wins.\n" : "Ollie wins.\n");
+        }
+        System.out.print(out);
+    }
+}
