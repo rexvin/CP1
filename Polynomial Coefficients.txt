@@ -1,0 +1,34 @@
+#include<stdio.h>
+
+//coefficients can be found by formula
+// n!/(n1!*n2!*....*nk!) so implementing the same with factorial function
+//This description is to understand the code given below coz exam me samaj nahi aata code me kya kiya ishiliye me likha yeah sab :)
+
+long factorial(int n)
+{
+    if(n>1)
+    {
+        return n*factorial(n-1);
+    }
+    else
+        return 1;
+}
+
+int main()
+{
+    long cf;
+    int n,k,x,i;
+    while(scanf("%d %d",&n,&k)==2)
+    {
+        cf = 1;
+        for(i=1;i<=k;i++)
+        {
+            scanf("%d",&x);
+            cf = cf*factorial(x);
+        }
+        cf = factorial(n)/cf;
+        printf("%d\n",cf);
+
+    }
+    return 0;
+}
